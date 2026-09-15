@@ -1,6 +1,6 @@
 # TV Hub V1
 
-Proyecto educativo con Node.js, Express, TypeScript, MongoDB y Mongoose. V1 cubre MVC, registro, login, JWT, cookies HttpOnly, sesiones persistentes y autorización por rol. No implementa canales, playlists, búsqueda ni reproducción.
+Proyecto con Node.js, Express, TypeScript, MongoDB y Mongoose. TvHub V1 cubre MVC, registro, login, JWT, cookies HttpOnly, sesiones persistentes y autorización por rol. No implementa canales, playlists, búsqueda ni reproducción.
 
 ## Requirements
 
@@ -43,30 +43,29 @@ El flujo es Route → Controller → Mongoose Model → MongoDB. Las rutas aplic
 
 ## API
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/health` | Express health check |
-| GET | `/ready` | MongoDB readiness check |
-| POST | `/api/auth/register` | Creates a USER and signs in |
-| POST | `/api/auth/login` | Signs in and creates a session |
-| POST | `/api/auth/refresh` | Rotates refresh token |
-| POST | `/api/auth/logout` | Revokes current session |
-| POST | `/api/auth/logout-all` | Revokes all user sessions |
-| GET | `/api/users/me` | Current authenticated user |
-| GET | `/api/admin/demo` | ADMIN-only demonstration |
+| Method | Endpoint               | Description                    |
+| ------ | ---------------------- | ------------------------------ |
+| GET    | `/health`              | Express health check           |
+| GET    | `/ready`               | MongoDB readiness check        |
+| POST   | `/api/auth/register`   | Creates a USER and signs in    |
+| POST   | `/api/auth/login`      | Signs in and creates a session |
+| POST   | `/api/auth/refresh`    | Rotates refresh token          |
+| POST   | `/api/auth/logout`     | Revokes current session        |
+| POST   | `/api/auth/logout-all` | Revokes all user sessions      |
+| GET    | `/api/users/me`        | Current authenticated user     |
+| GET    | `/api/admin/demo`      | ADMIN-only demonstration       |
 
 Access and refresh tokens are sent as HttpOnly cookies. MongoDB only stores a SHA-256 hash of the refresh token (bcrypt is used for passwords; it truncates long JWT values). Refreshing replaces that hash, so the previous refresh token cannot be reused.
 
-## Student Exercises
+## Exercises
 
-Complete the authentication TODOs as guided exercises. The existing tests are
-not part of the student exercises.
+Complete the authentication TODOs.
 
-| TODO | Exercise | Difficulty |
-| --- | --- | --- |
-| 01 | Implement `login()` | Beginner |
-| 02 | Implement the `authenticate` middleware | Beginner |
-| 03 | Implement the `authorize` middleware | Beginner |
-| 04 | Implement `logout()` | Intermediate |
-| 05 | Implement `logoutAll()` | Intermediate |
-| 06 | Implement refresh-token rotation in `refresh()` | Advanced |
+| TODO | Exercise                                        | Difficulty   |
+| ---- | ----------------------------------------------- | ------------ |
+| 01   | Implement `login()`                             | Beginner     |
+| 02   | Implement the `authenticate` middleware         | Beginner     |
+| 03   | Implement the `authorize` middleware            | Beginner     |
+| 04   | Implement `logout()`                            | Intermediate |
+| 05   | Implement `logoutAll()`                         | Intermediate |
+| 06   | Implement refresh-token rotation in `refresh()` | Advanced     |
