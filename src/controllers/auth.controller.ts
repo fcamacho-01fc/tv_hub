@@ -21,7 +21,8 @@ function readCredentials(body: Credentials): {
   email: string;
   password: string;
 } {
-  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  const email =
+    typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   const password = typeof body.password === "string" ? body.password : "";
 
   // Comprueba si el texto de la variable email no cumple con el patrón de la expresión regular.
@@ -86,51 +87,108 @@ export const register: RequestHandler = async (request, response) => {
 };
 
 export const login: RequestHandler = async (request, response) => {
-  // STUDENT TODO 01
-  // Goal: sign in an existing user and start a persistent session.
-  // Steps: read credentials, find the user, compare the password, reject invalid
-  // credentials with 401 INVALID_CREDENTIALS, then create tokens and set cookies.
-  // Hint: readCredentials(), comparePassword(), createSessionTokens(),
-  // setAuthCookies(), and publicUser() are already available in this file.
-  void request;
-  void response;
-  throw new AppError(501, "STUDENT_TODO", "Complete TODO 01: login");
+  const { email, password } = readCredentials(request.body);
+  const user = await User.findOne({ email });
+
+  if (!user || !(await comparePassword(password, user.passwordHash))) {
+    throw new AppError(401, "INVALID_CREDENTIALS", "Invalid email or password");
+  }
+
+  const tokens = await createSessionTokens(user, request.get("user-agent"));
+  setAuthCookies(response, tokens.accessToken, tokens.refreshToken);
+  response.json({ user: publicUser(user) });
 };
 
-export const refresh: RequestHandler = async (request, response, next) => {
-  // STUDENT TODO 06
-  // Goal: rotate a valid refresh token without allowing the previous token to be reused.
-  // Steps: read and verify the cookie; load its Session using sid; validate its
-  // owner, state, expiration, and hash; then load the User and rotate the token.
-  // Save the new hash and expiration, set both cookies, and return publicUser(user).
-  // Hint: verifyRefreshToken(), refreshTokenMatches(), hashRefreshToken(),
-  // refreshTokenExpiresAt(), createRefreshToken(), and createAccessToken() help here.
-  void request;
-  void response;
-  void next;
-  throw new AppError(501, "STUDENT_TODO", "Complete TODO 06: refresh");
+/*
+¿Existe la sesión?
+¿Pertenece al usuario?
+¿Sigue activa?
+¿No expiró?
+¿El refresh token coincide?
+*/
+export const refresh: RequestHandler = async (request, response) => {
+  const refreshToken = request.cookies.refreshToken;
+  if (typeof refreshToken !== "string") {
+    throw new AppError(401, "UNAUTHORIZED", "Refresh token is required");
+  }
+
+  let payload: ReturnType<typeof verifyRefreshToken>;
+  try {
+    payload = verifyRefreshToken(refreshToken);
+  } catch {
+    throw new AppError(401, "UNAUTHORIZED", "Invalid or expired refresh token");
+  }
+
+  const session = await Session.findById(payload.sid);
+  const isValidSession =
+    session &&
+    session.userId.toString() === payload.sub &&
+    !session.revokedAt &&
+    session.expiresAt > new Date() &&
+    refreshTokenMatches(refreshToken, session.refreshTokenHash);
+
+  if (!isValidSession) {
+    throw new AppError(401, "UNAUTHORIZED", "Invalid or expired refresh token");
+  }
+
+  const user = await User.findById(payload.sub);
+  if (!user) {
+    throw new AppError(401, "UNAUTHORIZED", "User no longer exists");
+  }
+
+  const newRefreshToken = createRefreshToken(user.id, session.id);
+  session.refreshTokenHash = hashRefreshToken(newRefreshToken);
+  session.expiresAt = refreshTokenExpiresAt();
+  await session.save();
+
+  setAuthCookies(
+    response,
+    createAccessToken(user.id, user.role),
+    newRefreshToken,
+  );
+  response.json({ user: publicUser(user) });
 };
 
-export const logout: RequestHandler = async (request, response, next) => {
-  // STUDENT TODO 04
-  // Goal: revoke only the session represented by the refresh-token cookie.
-  // Steps: read and verify the refresh token, find its Session, validate the
-  // owner and stored hash, mark it revoked, save it, clear cookies, and return 204.
-  // Hint: verifyRefreshToken(), Session.findById(), refreshTokenMatches(), and
-  // clearAuthCookies() cover the required operations.
-  void request;
-  void response;
-  void next;
-  throw new AppError(501, "STUDENT_TODO", "Complete TODO 04: logout");
+export const logout: RequestHandler = async (request, response) => {
+  const refreshToken = request.cookies.refreshToken;
+  if (typeof refreshToken !== "string") {
+    throw new AppError(401, "UNAUTHORIZED", "Refresh token is required");
+  }
+
+  let payload: ReturnType<typeof verifyRefreshToken>;
+  try {
+    payload = verifyRefreshToken(refreshToken);
+  } catch {
+    throw new AppError(401, "UNAUTHORIZED", "Invalid or expired refresh token");
+  }
+
+  const session = await Session.findById(payload.sid);
+  const isCurrentSession =
+    session &&
+    session.userId.toString() === payload.sub &&
+    !session.revokedAt &&
+    session.expiresAt > new Date() &&
+    refreshTokenMatches(refreshToken, session.refreshTokenHash);
+
+  if (!isCurrentSession) {
+    throw new AppError(401, "UNAUTHORIZED", "Invalid or expired refresh token");
+  }
+
+  session.revokedAt = new Date();
+  await session.save();
+  clearAuthCookies(response);
+  response.status(204).send();
 };
 
 export const logoutAll: RequestHandler = async (request, response) => {
-  // STUDENT TODO 05
-  // Goal: revoke every active session belonging to the authenticated user.
-  // Steps: read request.auth.userId, use Session.updateMany() to revoke active
-  // sessions, clear both auth cookies, and return 204.
-  // Hint: authenticate runs before this controller, so request.auth is available.
-  void request;
-  void response;
-  throw new AppError(501, "STUDENT_TODO", "Complete TODO 05: logout all");
+  const auth = request.auth;
+  if (!auth)
+    throw new AppError(401, "UNAUTHORIZED", "Authentication is required");
+
+  await Session.updateMany(
+    { userId: auth.userId, revokedAt: { $exists: false } },
+    { $set: { revokedAt: new Date() } },
+  );
+  clearAuthCookies(response);
+  response.status(204).send();
 };

@@ -56,16 +56,3 @@ El flujo es Route → Controller → Mongoose Model → MongoDB. Las rutas aplic
 | GET    | `/api/admin/demo`      | ADMIN-only demonstration       |
 
 Access and refresh tokens are sent as HttpOnly cookies. MongoDB only stores a SHA-256 hash of the refresh token (bcrypt is used for passwords; it truncates long JWT values). Refreshing replaces that hash, so the previous refresh token cannot be reused.
-
-## Exercises
-
-Complete the authentication TODOs.
-
-| TODO | Exercise                                        | Difficulty   |
-| ---- | ----------------------------------------------- | ------------ |
-| 01   | Implement `login()`                             | Beginner     |
-| 02   | Implement the `authenticate` middleware         | Beginner     |
-| 03   | Implement the `authorize` middleware            | Beginner     |
-| 04   | Implement `logout()`                            | Intermediate |
-| 05   | Implement `logoutAll()`                         | Intermediate |
-| 06   | Implement refresh-token rotation in `refresh()` | Advanced     |
