@@ -6,15 +6,15 @@ No implementes funciones completas desde cero. El objetivo es seguir este flujo:
 
 ```text
 MongoDB
-→ Channel Model
-→ Controller
-→ GET /api/channels
-→ JSON
-→ Frontend
-→ tarjetas de canales
+- Channel Model
+- Controller
+- GET /api/channels
+- JSON
+- Frontend
+- tarjetas de canales
 ```
 
-## TODO 1 — Recuperar canales
+## TODO 1 Recuperar canales
 
 Archivo:
 
@@ -44,7 +44,7 @@ Dificultad:
 
 Easy
 
-## TODO 2 — Mostrar el nombre del canal
+## TODO 2 Mostrar el nombre del canal
 
 Archivo:
 
@@ -74,7 +74,7 @@ Dificultad:
 
 Easy
 
-## TODO 3 — Mostrar el logo del canal
+## TODO 3 Mostrar el logo del canal
 
 Archivo:
 
@@ -104,7 +104,7 @@ Dificultad:
 
 Easy
 
-## TODO 4 — Mostrar categorías
+## TODO 4 Mostrar categorías
 
 Archivo:
 
@@ -112,7 +112,7 @@ Archivo:
 
 Objetivo:
 
-Convertir las categorías de cada canal en texto separado por `·`.
+Convertir las categorías de cada canal en texto separado por `,`.
 
 Qué completar:
 
@@ -124,7 +124,7 @@ Busca el método de arreglos que une varios textos usando un separador.
 
 Resultado visible:
 
-Las categorías se leen como texto, por ejemplo `News · General`.
+Las categorías se leen como texto, por ejemplo `News , General`.
 
 Cómo verificar:
 
@@ -134,7 +134,7 @@ Dificultad:
 
 Easy
 
-## TODO 5 — Conectar la búsqueda
+## TODO 5 Conectar la búsqueda
 
 Archivo:
 
@@ -164,7 +164,7 @@ Dificultad:
 
 Medium
 
-## Misión opcional A — Mostrar país
+## Misión opcional A Mostrar país
 
 Archivo:
 
@@ -194,7 +194,7 @@ Dificultad:
 
 Easy
 
-## Misión opcional C — Ordenar por nombre
+## Misión opcional C Ordenar por nombre
 
 Archivo:
 
