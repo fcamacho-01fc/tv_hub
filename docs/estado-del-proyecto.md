@@ -4,22 +4,21 @@
 
 Este documento permite retomar el trabajo aunque cambie la sesión de Codex o se cierre la terminal.
 
-## Rama actual y decisión pendiente
+## Rama principal
 
 - Rama principal actual: `master`.
-- `master` conserva la base original de V1 y no tiene las variantes de V2 fusionadas.
-- Por ahora no se debe hacer merge automáticamente. La decisión de fusionar queda pendiente para después de clase.
-- Al crear este documento, Express y MongoDB están detenidos.
+- `master` contiene la versión didáctica de V2: canales de ejemplo, API, búsqueda y frontend sencillo.
+- No incluye importación ni parsing de playlists M3U.
 
 ## Ramas locales disponibles
 
 | Rama | Commit principal | Contenido |
 | --- | --- | --- |
-| `master` | — | Base V1: autenticación, autorización, sesiones, health checks y frontend básico. |
-| `tv-hub-v2-b` | `f4d8e76` | V2 de canales: Model, API, seed, tarjetas, búsqueda e importador M3U local. |
+| `master` | — | V2 didáctica: autenticación V1, canales de ejemplo, API, seed, tarjetas y búsqueda; sin M3U. |
+| `tv-hub-v2-b` | `f4d8e76` | Variante avanzada de V2: lo de `master` más importador M3U local. |
 | `tv-hub-v2-b-ui-alt` | `fbb6139` | Todo lo de `tv-hub-v2-b` más una interfaz azul oscura alternativa con filas por categoría. |
 
-## Qué contiene `tv-hub-v2-b`
+## Qué contiene `master`
 
 El flujo V2 queda explícito y conserva MVC:
 
@@ -38,15 +37,14 @@ Incluye:
 - `Channel` con `name`, `logoUrl`, `streamUrl`, `country`, `categories` e `isActive`.
 - `GET /api/channels`, con búsqueda y filtros simples.
 - `npm run seed:channels` para cargar 20 canales de ejemplo locales.
-- `npm run import:m3u -- <archivo> <país>` para importar playlists M3U locales.
-- Documentación de checkpoints V2 y de importación M3U.
-- Tests de autenticación, health, channels y parser M3U.
+- Documentación de checkpoints V2.
+- Tests de autenticación, health y channels.
 
-## Importación de playlist M3U
+## Variante avanzada: importación de playlist M3U
 
 El archivo `docs/argentina_playlist.m3u` fue agregado localmente por el usuario y está ignorado por Git. No se comparte automáticamente al clonar o cambiar de computadora.
 
-En la rama `tv-hub-v2-b` o `tv-hub-v2-b-ui-alt`, el comando es:
+La importación M3U solo permanece en `tv-hub-v2-b` y `tv-hub-v2-b-ui-alt`; no forma parte de `master`. En esas ramas, el comando es:
 
 ```bash
 npm run build
@@ -100,20 +98,11 @@ Importación Argentina ✓ 176 canales
 GET /api/channels?search=Noticias ✓
 ```
 
-## Posible merge futuro
+## Ramas avanzadas
 
-Cuando se decida conservar la interfaz alternativa, partir desde `master` y revisar antes de fusionar:
+Las ramas `tv-hub-v2-b` y `tv-hub-v2-b-ui-alt` se conservan como referencia para una actividad posterior. No se deben fusionar en `master` sin volver a introducir la funcionalidad M3U.
 
 ```bash
-git switch master
 git log --oneline --all --decorate
-git diff master..tv-hub-v2-b-ui-alt
+git diff master..tv-hub-v2-b
 ```
-
-Después de revisar y probar, el merge propuesto sería:
-
-```bash
-git merge --no-ff tv-hub-v2-b-ui-alt
-```
-
-No ejecutar ese merge sin una decisión explícita del docente o responsable del proyecto.

@@ -10,7 +10,6 @@ Proyecto con Node.js, Express, TypeScript, MongoDB y Mongoose. TV Hub V2 conserv
 - La página Home usa `fetch('/api/channels')` y muestra tarjetas con logo, nombre, país y categorías.
 - La búsqueda del Home consulta de nuevo al backend.
 - Los ejercicios guiados están en `docs/session-10-student-checkpoints.md`.
-- Como actividad opcional posterior, una playlist M3U local se puede importar con `npm run import:m3u`.
 
 ## Requirements
 
@@ -24,7 +23,6 @@ npm install
 docker compose up -d
 npm run build
 npm run seed:channels
-npm run import:m3u -- docs/argentina_playlist.m3u Argentina
 npm run dev
 ```
 
@@ -47,7 +45,6 @@ npm start
 npm test
 npm run test:watch
 npm run seed:channels
-npm run import:m3u -- docs/argentina_playlist.m3u Argentina
 docker compose config
 docker compose up -d
 ```
@@ -84,14 +81,3 @@ npm run seed:channels
 ```
 
 The seed replaces the current channel collection with 20 local sample records. It does not fetch playlists or depend on an IPTV service. `streamUrl` is only stored as example data; V2 does not play streams.
-
-## Optional local M3U import
-
-For a later classroom activity, teacher-provided local M3U files can be imported without adding an HTTP endpoint or an external playlist provider:
-
-```bash
-npm run build
-npm run import:m3u -- docs/argentina_playlist.m3u Argentina
-```
-
-The importer reads `#EXTINF`, `tvg-logo`, `group-title`, and the following stream URL. It replaces channels for the specified country only, preserving other countries. Details and student-facing examples are in `docs/session-11-m3u-import.md`.
