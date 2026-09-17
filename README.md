@@ -9,7 +9,7 @@ Proyecto con Node.js, Express, TypeScript, MongoDB y Mongoose. TV Hub V2 conserv
 - `GET /api/channels` devuelve los canales activos; acepta `search`, `category`, `country` y `sort=country` de forma opcional.
 - La página Home usa `fetch('/api/channels')` y muestra tarjetas con logo, nombre, país y categorías.
 - La búsqueda del Home consulta de nuevo al backend.
-- Los ejercicios guiados están en `docs/session-10-student-checkpoints.md`.
+- La guía de preparación para la sesión 11 está en `docs/session-11-student-checkpoints.md`.
 
 ## Requirements
 
