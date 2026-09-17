@@ -11,6 +11,17 @@ Proyecto con Node.js, Express, TypeScript, MongoDB y Mongoose. TV Hub V2 conserv
 - La búsqueda del Home consulta de nuevo al backend.
 - La guía de preparación para la sesión 11 está en `docs/session-11-student-checkpoints.md`.
 
+## Session 11 — Student starter
+
+Complete the mini missions in order. After every TODO:
+
+1. Save the file.
+2. Refresh the browser or restart the application if needed.
+3. Observe what changed.
+4. Continue only after seeing the result.
+
+Do not implement complete features from scratch. The goal is to understand the data flow through small modifications: MongoDB → Channel Model → Controller → API → Frontend → channel cards.
+
 ## Requirements
 
 - Node.js 20 o superior
