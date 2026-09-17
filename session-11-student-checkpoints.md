@@ -1,5 +1,3 @@
-# Sesión 11 — TV Hub V2: starter para estudiantes
-
 ## Cómo trabajar
 
 Completa las misiones en orden. Cada una cambia una pieza pequeña del código que ya está implementado. Los marcadores visibles como `TODO 2` y el logo temporal indican el lugar de trabajo sin impedir que continúes con las demás misiones. Después de cada TODO, guarda el archivo, ejecuta o recarga la aplicación y observa el resultado antes de continuar.
