@@ -1,4 +1,4 @@
-# TV Hub V6.5 — referencia docente completa
+# TV Hub V6.5
 
 Aplicación de clase con Node.js, Express, TypeScript, MongoDB/Mongoose y frontend HTML, CSS y JavaScript. Incluye la implementación docente completa de Audit Logs para la sesión 16: eventos REPORT y SECURITY, API de consulta y vistas ADMIN.
 
