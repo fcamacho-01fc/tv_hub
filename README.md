@@ -1,6 +1,6 @@
 # TV Hub V6.5 — referencia docente completa
 
-Aplicación de clase con Node.js, Express, TypeScript, MongoDB/Mongoose y frontend HTML, CSS y JavaScript. Esta rama, `tv-hub-v6.5-audit`, contiene la implementación docente completa de Audit Logs para la sesión 16: eventos REPORT y SECURITY, API de consulta y vistas ADMIN.
+Aplicación de clase con Node.js, Express, TypeScript, MongoDB/Mongoose y frontend HTML, CSS y JavaScript. Incluye la implementación docente completa de Audit Logs para la sesión 16: eventos REPORT y SECURITY, API de consulta y vistas ADMIN.
 
 ## Inicio rápido
 
@@ -16,10 +16,10 @@ npm run dev
 
 Abre `http://localhost:3000`. `/health` comprueba el servidor y `/ready` confirma la conexión con MongoDB. En desarrollo se carga `.env.example` si no existe `.env`; copia ese archivo a `.env` para personalizar secretos JWT, MongoDB, correo o el tiempo de escalación.
 
-`npm run import:all-channels` carga las playlists `docs/*_playlist.m3u` y **reemplaza Channels y Favorites**. Para importar una sola playlist después de compilar:
+`npm run import:all-channels` carga las playlists `playlists/*_playlist.m3u` y **reemplaza Channels y Favorites**. Para importar una sola playlist después de compilar:
 
 ```bash
-npm run import:channels -- docs/japon_playlist.m3u Japan
+npm run import:channels -- playlists/japon_playlist.m3u Japan
 ```
 
 Otros comandos: `npm test` ejecuta Jest, `npm start` sirve la compilación y `docker compose down` detiene MongoDB sin borrar su volumen.
@@ -74,4 +74,4 @@ Las rutas protegidas usan las cookies de sesión. `ADMIN` indica que se exige es
 
 ## Material de sesión 16
 
-El flujo docente muestra cada cambio de Report seguido por su Audit Log y después por el correo o evento WebSocket existente. Consulta [la referencia de Audit Logs](docs/tv-hub-v6-audit-logs.md). La rama `tv-hub-v6.5-logs-base` contiene el starter para live coding, con cinco integraciones REPORT pendientes y la auditoría SECURITY completa.
+El flujo docente muestra cada cambio de Report seguido por su Audit Log y después por el correo o evento WebSocket existente. La rama `tv-hub-v6.5-logs-base` contiene el starter para live coding, con cinco integraciones REPORT pendientes y la auditoría SECURITY completa. El material local de `docs/` queda excluido de Git.

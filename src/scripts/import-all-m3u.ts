@@ -14,12 +14,12 @@ const countriesByPlaylist: Record<string, string> = {
 };
 
 async function importAllPlaylists(): Promise<void> {
-  const playlistDirectory = path.join(process.cwd(), 'docs');
+  const playlistDirectory = path.join(process.cwd(), 'playlists');
   const playlistFiles = (await readdir(playlistDirectory))
     .filter((file) => file.endsWith('_playlist.m3u'))
     .sort();
 
-  if (playlistFiles.length === 0) throw new Error('No M3U playlists were found in docs');
+  if (playlistFiles.length === 0) throw new Error('No M3U playlists were found in playlists');
 
   await connectDatabase();
   await Favorite.deleteMany({});
