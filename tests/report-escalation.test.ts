@@ -37,7 +37,7 @@ async function createReport(createdAt: Date) {
   });
   const channel = await Channel.create({
     name: "Escalation Channel",
-    logoUrl: "https://example.com/log.png",
+    logoUrl: "https://example.com/logo.png",
     streamUrl: "https://example.com/stream.m3u8",
     country: "Mexico",
     categories: ["News"],
