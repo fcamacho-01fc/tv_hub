@@ -1,0 +1,53 @@
+name: TV Hub CI/CD
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Package
+        run: zip -r tv-hub.zip dist package.json package-lock.json
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tv-hub
+          path: tv-hub.zip
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tv-hub
+
+      - name: Simulate Deploy
+        run: |
+          echo "Starting deployment..."
+          unzip -t tv-hub.zip
+          echo "Artifact validated"
+          echo "Deployment simulated successfully"
