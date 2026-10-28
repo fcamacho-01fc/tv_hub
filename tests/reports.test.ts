@@ -148,7 +148,7 @@ test("a notification failure does not undo a persisted report", async () => {
 
 test("only an ADMIN can view the support report queue", async () => {
   const reporter = await registerAgent("support-reporter@example.com");
-  await reporter.post("/api/reports").field(reportFields()).expect(901);
+  await reporter.post("/api/reports").field(reportFields()).expect(201);
   await reporter.get("/api/admin/reports").expect(403);
 
   const admin = await registerAgent("support-admin@example.com");
