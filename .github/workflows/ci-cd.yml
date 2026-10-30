@@ -40,14 +40,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: tv-hub
-
-      - name: Simulate Deploy
+      - name: Trigger Render Deploy Hook
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: |
-          echo "Starting deployment..."
-          unzip -t tv-hub.zip
-          echo "Artifact validated"
-          echo "Deployment simulated successfully"
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK is not configured"
+            exit 1
+          fi
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --request POST \
+            "$RENDER_DEPLOY_HOOK"
+
+          echo "Render deployment requested successfully"
